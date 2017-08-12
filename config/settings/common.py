@@ -150,7 +150,8 @@ STATIC_URL = '/static/'
 # CORS config
 # ------------------------------------------------------------------------------
 CORS_ORIGIN_WHITELIST = (
-    'localhost:4200'
+    'localhost:4200',
+    'localhost'
 )
 CORS_URLS_REGEX = r'^/api/.*$'
 
@@ -181,4 +182,6 @@ JWT_AUTH = {
     'JWT_SECRET_KEY': env('DJANGO_SECRET_KEY'),
     'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=10),
     'JWT_AUTH_HEADER_PREFIX': 'Token',
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 }
