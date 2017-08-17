@@ -12,8 +12,6 @@ class TransactionCategorySerializer(serializers.ModelSerializer):
             'id',
             'name',
             'transaction_type',
-            'created_at',
-            'updated_at',
         )
         extra_kwargs = {
             'name': {'validators': []},

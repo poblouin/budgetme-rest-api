@@ -13,8 +13,6 @@ class AccountSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'account_type',
-            'created_at',
-            'updated_at',
         )
         extra_kwargs = {
             'name': {'validators': []},
@@ -57,9 +55,8 @@ class TransactionSerializer(serializers.ModelSerializer):
             'date',
             'transaction_category',
             'account',
-            'created_at',
-            'updated_at',
         )
+        extra_kwargs = {'account': {'write_only': True}}
 
     def create(self, validated_data):
         user = validated_data.pop('user')

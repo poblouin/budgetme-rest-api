@@ -17,3 +17,6 @@ ADMIN_URL = r'^admin/'
 ALLOWED_HOSTS = [
     'localhost',
 ]
+
+JWT_AUTH['JWT_EXPIRATION_DELTA'] = datetime.timedelta(days=7)
+JWT_AUTH['JWT_REFRESH_EXPIRATION_DELTA'] = datetime.timedelta(days=7)
