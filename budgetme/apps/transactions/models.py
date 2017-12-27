@@ -21,7 +21,7 @@ class Transaction(TimestampedModel):
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='transactions')
     transaction_category = models.ForeignKey('types.TransactionCategory', on_delete=models.CASCADE, related_name='+')
-    account = models.ForeignKey('Account', related_name='transactions')
+    account = models.ForeignKey('Account', related_name='transactions', on_delete=models.CASCADE)
 
 
 # class ScheduledTransaction(models.Model):

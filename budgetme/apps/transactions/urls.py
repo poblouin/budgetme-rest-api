@@ -7,6 +7,7 @@ router = DefaultRouter(trailing_slash=False)
 router.register(r'account', AccountViewSet)
 router.register(r'transaction', TransactionViewSet)
 
+app_name = 'transactions'
 urlpatterns = [
     url(r'^', include(router.urls)),
 ]
