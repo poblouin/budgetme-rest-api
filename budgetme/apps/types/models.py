@@ -3,14 +3,27 @@ from django.db import models
 from budgetme.apps.core.models import TimestampedModel
 
 
-class TransactionCategory(TimestampedModel):
-    INCOME = 'IN'
-    EXPENSE = 'EX'
-    TRANSACTION_TYPE_CHOICES = (
-        (INCOME, 'Income'),
-        (EXPENSE, 'Expense')
-    )
-
+class Budget(TimestampedModel):
     name = models.CharField(max_length=30, unique=True)
-    transaction_type = models.CharField(max_length=2, choices=TRANSACTION_TYPE_CHOICES)
+    weekly_amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='budgets')
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return 'Budget<name={}>'.format(self.name)
+
+
+class TransactionCategory(TimestampedModel):
+    name = models.CharField(max_length=30, unique=True)
+
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='transaction_categories')
+    budget = models.ForeignKey('Budget', blank=False, null=True, on_delete=models.SET_NULL, related_name='transaction_categories')
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return 'TransactionCategory<name={}>'.format(self.name)

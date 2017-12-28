@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimestampedModel):
         return self.email
 
     def get_full_name(self):
-      return self.username
+        return self.username
 
     def get_short_name(self):
         return self.username

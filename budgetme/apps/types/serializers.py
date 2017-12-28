@@ -1,17 +1,16 @@
-
 from rest_framework import serializers
 
-from budgetme.apps.types.models import TransactionCategory
+from budgetme.apps.types.models import TransactionCategory, Budget
 
 
-class TransactionCategorySerializer(serializers.ModelSerializer):
+class BudgetSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = TransactionCategory
+        model = Budget
         fields = (
             'id',
             'name',
-            'transaction_type',
+            'weekly_amount',
         )
         extra_kwargs = {
             'name': {'validators': []},
@@ -20,8 +19,54 @@ class TransactionCategorySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = validated_data.pop('user')
 
-        return TransactionCategory.objects.create(
+        return Budget.objects.create(
             user=user, **validated_data
+        )
+
+    def validate(self, data):
+        """
+        Needed to bypass the unique constraint validation for the name, otherwise the nested serializers won't work.
+        """
+        if type(self.context['view']).__name__ != 'BudgetViewSet':
+            return data
+
+        try:
+            Budget.objects.get(user=self.context['request'].user,
+                               name=data['name'],
+                               weekly_amount=data['weekly_amount'])
+        except Budget.DoesNotExist:
+            pass
+        else:
+            raise serializers.ValidationError('A budget with this name already exists.')
+        return data
+
+
+class TransactionCategorySerializer(serializers.ModelSerializer):
+    budget = BudgetSerializer(write_only=True)
+
+    class Meta:
+        model = TransactionCategory
+        fields = (
+            'id',
+            'name',
+            'budget',
+        )
+        extra_kwargs = {
+            'name': {'validators': []},
+        }
+
+    def create(self, validated_data):
+        user = validated_data.pop('user')
+        budget_data = validated_data.pop('budget')
+        try:
+            budget = Budget.objects.get(user=user, **budget_data)
+        except Budget.DoesNotExist:
+            raise serializers.ValidationError('Please specify an existing budget.')
+
+        return TransactionCategory.objects.create(
+            user=user,
+            budget=budget,
+            **validated_data
         )
 
     def validate(self, data):
@@ -32,9 +77,7 @@ class TransactionCategorySerializer(serializers.ModelSerializer):
             return data
 
         try:
-            TransactionCategory.objects.get(user=self.context['request'].user,
-                                            name=data['name'],
-                                            transaction_type=data['transaction_type'])
+            TransactionCategory.objects.get(user=self.context['request'].user, name=data['name'])
         except TransactionCategory.DoesNotExist:
             pass
         else:
