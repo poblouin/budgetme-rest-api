@@ -6,6 +6,7 @@ from budgetme.apps.core.models import TimestampedModel
 class Transaction(TimestampedModel):
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField()
+    description = models.CharField(max_length=100)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='transactions')
     transaction_category = models.ForeignKey('types.TransactionCategory', null=True, on_delete=models.SET_NULL, related_name='+')

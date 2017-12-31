@@ -14,6 +14,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             'id',
             'amount',
             'date',
+            'description',
             'transaction_category',
         )
 

@@ -1,6 +1,8 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
+from budgetme.apps.types.filters import TransactionCategoryFilter
 from budgetme.apps.types.models import TransactionCategory, Budget
 from budgetme.apps.types.renderers import TransactionCategoryJSONRenderer, BudgetJSONRenderer
 from budgetme.apps.types.serializers import TransactionCategorySerializer, BudgetSerializer
@@ -24,6 +26,8 @@ class TransactionCategoryViewSet(ModelViewSet):
     permission_classes = (IsAuthenticated,)
     renderer_classes = (TransactionCategoryJSONRenderer,)
     serializer_class = TransactionCategorySerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_class = TransactionCategoryFilter
 
     def get_queryset(self):
         return self.request.user.transaction_categories.all()

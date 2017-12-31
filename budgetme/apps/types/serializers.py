@@ -42,7 +42,7 @@ class BudgetSerializer(serializers.ModelSerializer):
 
 
 class TransactionCategorySerializer(serializers.ModelSerializer):
-    budget = BudgetSerializer(write_only=True)
+    budget = BudgetSerializer()
 
     class Meta:
         model = TransactionCategory
