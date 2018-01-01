@@ -10,7 +10,8 @@ class BudgetSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
-            'weekly_amount',
+            'amount',
+            'budget_frequency'
         )
         extra_kwargs = {
             'name': {'validators': []},
@@ -33,7 +34,8 @@ class BudgetSerializer(serializers.ModelSerializer):
         try:
             Budget.objects.get(user=self.context['request'].user,
                                name=data['name'],
-                               weekly_amount=data['weekly_amount'])
+                               amount=data['amount'],
+                               budget_frequency=data['budget_frequency'])
         except Budget.DoesNotExist:
             pass
         else:
