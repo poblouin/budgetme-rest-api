@@ -4,8 +4,8 @@ from budgetme.apps.core.models import TimestampedModel
 
 
 class Budget(TimestampedModel):
-    WEEKLY = 'We'
-    MONTHLY = 'Mo'
+    WEEKLY = 'Weekly'
+    MONTHLY = 'Monthly'
     BUDGET_FREQUENCY_CHOICES = (
         (WEEKLY, 'Weekly'),
         (MONTHLY, 'Monthly')
@@ -13,7 +13,7 @@ class Budget(TimestampedModel):
 
     name = models.CharField(max_length=30, unique=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    budget_frequency = models.CharField(max_length=2, choices=BUDGET_FREQUENCY_CHOICES, default=WEEKLY)
+    budget_frequency = models.CharField(max_length=7, choices=BUDGET_FREQUENCY_CHOICES, default=WEEKLY)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='budgets')
 
