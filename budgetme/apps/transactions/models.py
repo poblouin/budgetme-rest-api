@@ -1,10 +1,12 @@
+from decimal import Decimal
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from budgetme.apps.core.models import TimestampedModel
 
 
 class Transaction(TimestampedModel):
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     date = models.DateField()
     description = models.CharField(max_length=100)
 

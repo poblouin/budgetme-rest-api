@@ -1,3 +1,5 @@
+from decimal import Decimal
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from budgetme.apps.core.models import TimestampedModel
@@ -12,7 +14,7 @@ class Budget(TimestampedModel):
     )
 
     name = models.CharField(max_length=30, unique=True)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     budget_frequency = models.CharField(max_length=7, choices=BUDGET_FREQUENCY_CHOICES, default=WEEKLY)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='budgets')
