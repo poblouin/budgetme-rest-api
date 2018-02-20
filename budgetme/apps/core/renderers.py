@@ -10,6 +10,9 @@ class BudgetMeJSONRenderer(JSONRenderer):
     pagination_object_count = 'count'
 
     def render(self, data, media_type=None, renderer_context=None):
+        if not data:
+            return {}
+
         if data.get('results', None) is not None:
             return json.dumps({
                 self.pagination_object_label: data['results'],
