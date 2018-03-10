@@ -37,3 +37,18 @@ class TransactionSerializer(serializers.ModelSerializer):
             transaction_category=transaction_category,
             **validated_data
         )
+
+    def update(self, instance, validated_data):
+        user = self.context['request'].user
+        transaction_category_data = validated_data.pop('transaction_category')
+        try:
+            transaction_category = TransactionCategory.objects.get(user=user, name=transaction_category_data['name'])
+        except TransactionCategory.DoesNotExist:
+            raise serializers.ValidationError('Please specify an existing transaction category.')
+
+        instance.amount = validated_data.get('amount', instance.amount)
+        instance.date = validated_data.get('date', instance.date)
+        instance.description = validated_data.get('description', instance.description)
+        instance.transaction_category = transaction_category
+        instance.save()
+        return instance
