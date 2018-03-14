@@ -13,7 +13,7 @@ class Budget(TimestampedModel):
         (MONTHLY, 'Monthly')
     )
 
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30)
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     budget_frequency = models.CharField(max_length=7, choices=BUDGET_FREQUENCY_CHOICES, default=WEEKLY)
 
@@ -27,7 +27,7 @@ class Budget(TimestampedModel):
 
 
 class TransactionCategory(TimestampedModel):
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='transaction_categories')
     budget = models.ForeignKey('Budget', blank=False, null=True, on_delete=models.SET_NULL, related_name='transaction_categories')
