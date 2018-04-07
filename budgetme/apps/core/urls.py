@@ -1,9 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 
 from budgetme.apps.core.views import UserRetrieveUpdateAPIView, RegistrationAPIView
 
 app_name = 'core'
 urlpatterns = [
-    url(r'^user/?$', UserRetrieveUpdateAPIView.as_view()),
-    url(r'^users/?$', RegistrationAPIView.as_view()),
+    path('user', UserRetrieveUpdateAPIView.as_view()),
+    path('users', RegistrationAPIView.as_view()),
 ]

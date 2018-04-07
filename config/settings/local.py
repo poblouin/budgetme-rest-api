@@ -24,7 +24,7 @@ DATABASES = {
 SECRET_KEY = 'w-r7j8s_95as8q*h@%c-jky8@0!b3@b2&e6tvqz*2)dxr&&a(^'
 
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
-ADMIN_URL = r'^admin/'
+ADMIN_URL = 'admin/'
 
 # SITE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -37,5 +37,5 @@ ALLOWED_HOSTS = [
 ]
 # END SITE CONFIGURATION
 
-JWT_AUTH['JWT_EXPIRATION_DELTA'] = datetime.timedelta(days=7)
-JWT_AUTH['JWT_REFRESH_EXPIRATION_DELTA'] = datetime.timedelta(days=7)
+SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = datetime.timedelta(days=7)
+SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] = datetime.timedelta(days=7)

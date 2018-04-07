@@ -29,7 +29,7 @@ THIRD_PARTY_APPS = (
     'corsheaders',
     'django_extensions',
     'rest_framework',
-    'rest_framework_jwt'
+    'rest_framework_simplejwt'
 )
 
 LOCAL_APPS = (
@@ -168,7 +168,7 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'budgetme.apps.core.exceptions.custom_exception_handler',
     'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -177,10 +177,15 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100,
 }
 
-# Django REST Framework JWT config
+# Django REST Framework Simple JWT config
 # ------------------------------------------------------------------------------
-JWT_AUTH = {
-    'JWT_SECRET_KEY': env('DJANGO_SECRET_KEY'),
-    'JWT_AUTH_HEADER_PREFIX': 'Token',
-    'JWT_ALLOW_REFRESH': True,
+SIMPLE_JWT = {
+    'SIGNING_KEY': env('DJANGO_SECRET_KEY'),
+
+    'AUTH_HEADER_TYPES': ('Token',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
 }

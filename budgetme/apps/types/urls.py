@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from budgetme.apps.types.views import TransactionCategoryViewSet, BudgetViewSet
@@ -9,5 +9,5 @@ router.register(r'transaction-category', TransactionCategoryViewSet)
 
 app_name = 'types'
 urlpatterns = [
-    url(r'^', include(router.urls)),
+    path('', include(router.urls)),
 ]

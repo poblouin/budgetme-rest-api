@@ -27,6 +27,9 @@ class Budget(TimestampedModel):
 
 
 class TransactionCategory(TimestampedModel):
+    class Meta:
+        verbose_name_plural = 'Transaction categories'
+
     name = models.CharField(max_length=30)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='transaction_categories')

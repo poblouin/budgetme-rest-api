@@ -114,5 +114,5 @@ RAVEN_CONFIG = {
 # Custom Admin URL, use {% url 'admin:index' %}
 ADMIN_URL = env('DJANGO_ADMIN_URL')
 
-JWT_AUTH['JWT_EXPIRATION_DELTA'] = datetime.timedelta(minutes=30)
-JWT_AUTH['JWT_REFRESH_EXPIRATION_DELTA'] = datetime.timedelta(days=1)
+SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = datetime.timedelta(minutes=30)
+SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] = datetime.timedelta(days=1)
