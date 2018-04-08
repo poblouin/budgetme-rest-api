@@ -16,8 +16,12 @@ def custom_exception_handler(exc, context):
 
 
 def _process_generic_error(exc, context, response):
+    errors = response.data
+    if 'error' in errors:
+        errors = errors['error']
+
     response.data = {
-        'errors': response.data
+        'errors': errors
     }
 
     return response

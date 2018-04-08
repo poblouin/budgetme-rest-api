@@ -44,11 +44,13 @@ class BudgetSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('The start date must be less than the end date.')
 
         try:
-            BudgetSerializer._get_budget_or_raise(self.context['request'].user, **{'name': data['name']})
+            budget = BudgetSerializer._get_budget_or_raise(self.context['request'].user, **{'name': data['name']})
         except Budget.DoesNotExist:
             pass
         else:
-            raise serializers.ValidationError('A budget with this name already exists.')
+            if budget and self.context['view'].action != 'update':
+                raise serializers.ValidationError('A budget with this name already exists.')
+
         return data
 
     @staticmethod
