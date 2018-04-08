@@ -16,6 +16,8 @@ class Budget(TimestampedModel):
     name = models.CharField(max_length=30)
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
     budget_frequency = models.CharField(max_length=7, choices=BUDGET_FREQUENCY_CHOICES, default=WEEKLY)
+    start_date = models.DateField(default=None, null=True)
+    end_date = models.DateField(default=None, null=True)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='budgets')
 

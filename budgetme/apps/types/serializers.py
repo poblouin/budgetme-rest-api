@@ -12,7 +12,9 @@ class BudgetSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'amount',
-            'budget_frequency'
+            'budget_frequency',
+            'start_date',
+            'end_date'
         )
         extra_kwargs = {
             'name': {'validators': []},
@@ -34,6 +36,12 @@ class BudgetSerializer(serializers.ModelSerializer):
 
         if not validate_name(data['name']):
             raise serializers.ValidationError('This name contains invalid characters')
+
+        if (data.get('start_date') and not data.get('end_date')) or (not data.get('start_date') and data.get('end_date')):
+            raise serializers.ValidationError('If used, the start and end date must be both specified.')
+
+        if data.get('start_date') and data.get('end_date') and data['start_date'] > data['end_date']:
+            raise serializers.ValidationError('The start date must be less than the end date.')
 
         try:
             BudgetSerializer._get_budget_or_raise(self.context['request'].user, **{'name': data['name']})
