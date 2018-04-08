@@ -11,7 +11,7 @@ class Transaction(TimestampedModel):
     description = models.CharField(max_length=100)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='transactions')
-    transaction_category = models.ForeignKey('types.TransactionCategory', null=True, on_delete=models.SET_NULL, related_name='+')
+    transaction_category = models.ForeignKey('types.TransactionCategory', on_delete=models.CASCADE, related_name='+')
 
     def __str__(self):
         return '{}$ on {}'.format(self.amount, self.date)

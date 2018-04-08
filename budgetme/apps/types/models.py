@@ -35,7 +35,7 @@ class TransactionCategory(TimestampedModel):
     name = models.CharField(max_length=30)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='transaction_categories')
-    budget = models.ForeignKey('Budget', blank=False, null=True, on_delete=models.SET_NULL, related_name='transaction_categories')
+    budget = models.ForeignKey('Budget', blank=False, on_delete=models.CASCADE, related_name='transaction_categories')
 
     def __str__(self):
         return self.name
