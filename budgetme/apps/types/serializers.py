@@ -14,7 +14,8 @@ class BudgetSerializer(serializers.ModelSerializer):
             'amount',
             'budget_frequency',
             'start_date',
-            'end_date'
+            'end_date',
+            'color_display'
         )
         extra_kwargs = {
             'name': {'validators': []},
@@ -34,15 +35,23 @@ class BudgetSerializer(serializers.ModelSerializer):
         if type(self.context['view']).__name__ != 'BudgetViewSet':
             return data
 
+        # name
         if not validate_name(data['name']):
             raise serializers.ValidationError('This name contains invalid characters')
 
+        # dates
         if (data.get('start_date') and not data.get('end_date')) or (not data.get('start_date') and data.get('end_date')):
             raise serializers.ValidationError('If used, the start and end date must be both specified.')
 
         if data.get('start_date') and data.get('end_date') and data['start_date'] > data['end_date']:
             raise serializers.ValidationError('The start date must be less than the end date.')
 
+        # color
+        colors = [budget.color_display for budget in self.context['request'].user.budgets.all() if budget.color_display]
+        if any(data['color_display'] in color for color in colors):
+            raise serializers.ValidationError('This color is already used by another budget, select another one.')
+
+        # is unique
         try:
             budget = BudgetSerializer._get_budget_or_raise(self.context['request'].user, **{'name': data['name']})
         except Budget.DoesNotExist:

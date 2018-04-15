@@ -18,6 +18,7 @@ class Budget(TimestampedModel):
     budget_frequency = models.CharField(max_length=7, choices=BUDGET_FREQUENCY_CHOICES, default=WEEKLY)
     start_date = models.DateField(default=None, null=True)
     end_date = models.DateField(default=None, null=True)
+    color_display = models.CharField(max_length=10, null=True)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='budgets')
 
