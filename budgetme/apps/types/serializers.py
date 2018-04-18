@@ -47,7 +47,8 @@ class BudgetSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('The start date must be less than the end date.')
 
         # color
-        colors = [budget.color_display for budget in self.context['request'].user.budgets.all() if budget.color_display]
+        colors = [budget.color_display for budget in self.context['request'].user.budgets.all()
+                  if budget.color_display and budget.name != data['name']]
         if any(data['color_display'] in color for color in colors):
             raise serializers.ValidationError('This color is already used by another budget, select another one.')
 
