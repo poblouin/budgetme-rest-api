@@ -35,24 +35,12 @@ class BudgetSerializer(serializers.ModelSerializer):
         if type(self.context['view']).__name__ != 'BudgetViewSet':
             return data
 
-        # name
         if not validate_name(data['name']):
             raise serializers.ValidationError('This name contains invalid characters')
 
-        # dates
-        if (data.get('start_date') and not data.get('end_date')) or (not data.get('start_date') and data.get('end_date')):
-            raise serializers.ValidationError('If used, the start and end date must be both specified.')
+        BudgetSerializer._validate_dates(data)
+        self._validate_color(data)
 
-        if data.get('start_date') and data.get('end_date') and data['start_date'] > data['end_date']:
-            raise serializers.ValidationError('The start date must be less than the end date.')
-
-        # color
-        colors = [budget.color_display for budget in self.context['request'].user.budgets.all()
-                  if budget.color_display and budget.name != data['name']]
-        if any(data['color_display'] in color for color in colors):
-            raise serializers.ValidationError('This color is already used by another budget, select another one.')
-
-        # is unique
         try:
             budget = BudgetSerializer._get_budget_or_raise(self.context['request'].user, **{'name': data['name']})
         except Budget.DoesNotExist:
@@ -62,6 +50,16 @@ class BudgetSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('A budget with this name already exists.')
 
         return data
+
+    def _validate_color(self, data):
+        if not data.get('color_display'):
+            return
+
+        name = self.instance.name if self.instance else data['name']
+        colors = [budget.color_display for budget in self.context['request'].user.budgets.all()
+                  if budget.color_display and budget.name != name]
+        if any(data['color_display'] in color for color in colors):
+            raise serializers.ValidationError('This color is already used by another budget, select another one.')
 
     @staticmethod
     def validate_budget_or_raise(user, **budget_data):
@@ -73,6 +71,14 @@ class BudgetSerializer(serializers.ModelSerializer):
     @staticmethod
     def _get_budget_or_raise(user, **budget_data):
         return Budget.objects.get(user=user, **budget_data)
+
+    @staticmethod
+    def _validate_dates(data):
+        if (data.get('start_date') and not data.get('end_date')) or (not data.get('start_date') and data.get('end_date')):
+            raise serializers.ValidationError('If used, the start and end date must be both specified.')
+
+        if data.get('start_date') and data.get('end_date') and data['start_date'] > data['end_date']:
+            raise serializers.ValidationError('The start date must be less than the end date.')
 
 
 class TransactionCategorySerializer(serializers.ModelSerializer):

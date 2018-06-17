@@ -1,0 +1,62 @@
+[
+  {
+    "model": "types.budget",
+    "pk": 1,
+    "fields": {
+      "created_at": "2018-03-10T20:47:54.111Z",
+      "updated_at": "2018-04-18T00:23:48.554Z",
+      "name": "test200",
+      "amount": "250.00",
+      "budget_frequency": "Monthly",
+      "start_date": "2018-04-01",
+      "end_date": "2018-04-30",
+      "color_display": "#9C27B0",
+      "user": 1
+    }
+  },
+  {
+    "model": "types.budget",
+    "pk": 2,
+    "fields": {
+      "created_at": "2018-03-10T20:48:15.094Z",
+      "updated_at": "2018-04-09T02:19:18.329Z",
+      "name": "test800",
+      "amount": "180.00",
+      "budget_frequency": "Weekly",
+      "start_date": null,
+      "end_date": null,
+      "color_display": null,
+      "user": 1
+    }
+  },
+  {
+    "model": "types.budget",
+    "pk": 16,
+    "fields": {
+      "created_at": "2018-06-17T18:57:01.244Z",
+      "updated_at": "2018-06-17T18:57:01.244Z",
+      "name": "test_budget1",
+      "amount": "100.00",
+      "budget_frequency": "Weekly",
+      "start_date": null,
+      "end_date": null,
+      "color_display": null,
+      "user": 1
+    }
+  },
+  {
+    "model": "types.budget",
+    "pk": 17,
+    "fields": {
+      "created_at": "2018-06-17T19:09:19.563Z",
+      "updated_at": "2018-06-17T19:09:19.563Z",
+      "name": "test_budget2",
+      "amount": "200.00",
+      "budget_frequency": "Monthly",
+      "start_date": "2018-06-01",
+      "end_date": "2018-06-30",
+      "color_display": "#FF5722",
+      "user": 1
+    }
+  }
+]

@@ -63,7 +63,7 @@ LOGGING = {
     'disable_existing_loggers': True,
     'root': {
         'level': 'WARNING',
-        'handlers': ['sentry'],
+        'handlers': ['sentry', 'file'],
     },
     'formatters': {
         'verbose': {
@@ -80,6 +80,11 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/budgetme.log'
         }
     },
     'loggers': {
@@ -103,11 +108,16 @@ LOGGING = {
             'handlers': ['console', 'sentry'],
             'propagate': False,
         },
+        'budgetme': {
+            'level': 'ERROR',
+            'handlers': ['console', 'sentry', 'file'],
+            'propagate': False,
+        },
     },
 }
-SENTRY_CELERY_LOGLEVEL = env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO)
+SENTRY_CELERY_LOGLEVEL = env.int('DJANGO_SENTRY_LOG_LEVEL', logging.WARNING)
 RAVEN_CONFIG = {
-    'CELERY_LOGLEVEL': env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO),
+    'CELERY_LOGLEVEL': env.int('DJANGO_SENTRY_LOG_LEVEL', logging.WARNING),
     'DSN': SENTRY_DSN
 }
 
