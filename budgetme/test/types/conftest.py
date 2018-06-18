@@ -1,0 +1,1 @@
+from budgetme.test.types.fixtures import *
