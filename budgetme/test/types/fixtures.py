@@ -17,7 +17,7 @@ def make_budget():
         end_date = kwargs['end_date'] if kwargs.get('end_date') else '2018-06-30'
         color_display = kwargs['color_display'] if kwargs.get('color_display') else '#00BCD4'
 
-        budget_data = {
+        return {
             'name': name,
             'budget_frequency': budget_frequency,
             'amount': amount,
@@ -26,6 +26,25 @@ def make_budget():
             'color_display': color_display
         }
 
-        return budget_data
-
     return _format_budget_data
+
+
+@pytest.fixture
+def make_transaction_category(make_budget):
+
+    def _make_transaction_category(budget=None, **kwargs):
+        now = datetime.datetime.now().strftime('%Y%m%d%s')
+        name = kwargs['name'] if kwargs.get('name') else 'dummy_{}'.format(now)
+        budget = budget if budget else make_budget(
+            name='test_budget2',
+            budget_frequency=Budget.MONTHLY,
+            amount=200.00,
+            color_display='#FF5722'
+        )
+
+        return {
+            'name': name,
+            'budget': budget
+        }
+
+    return _make_transaction_category
