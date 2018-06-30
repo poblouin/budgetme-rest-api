@@ -1,0 +1,54 @@
+[
+  {
+    "model": "transactions.transaction",
+    "pk": 23,
+    "fields": {
+      "created_at": "2018-06-19T23:20:01.237Z",
+      "updated_at": "2018-06-19T23:20:01.237Z",
+      "amount": "50.00",
+      "date": "2018-06-19",
+      "description": "test",
+      "user": 1,
+      "transaction_category": 12
+    }
+  },
+  {
+    "model": "transactions.transaction",
+    "pk": 24,
+    "fields": {
+      "created_at": "2018-06-19T23:20:13.641Z",
+      "updated_at": "2018-06-19T23:20:13.641Z",
+      "amount": "50.00",
+      "date": "2018-06-19",
+      "description": "test1",
+      "user": 1,
+      "transaction_category": 13
+    }
+  },
+  {
+    "model": "transactions.transaction",
+    "pk": 25,
+    "fields": {
+      "created_at": "2018-06-19T23:20:29.355Z",
+      "updated_at": "2018-06-19T23:20:29.355Z",
+      "amount": "100.00",
+      "date": "2018-06-19",
+      "description": "test2",
+      "user": 1,
+      "transaction_category": 14
+    }
+  },
+  {
+    "model": "transactions.transaction",
+    "pk": 26,
+    "fields": {
+      "created_at": "2018-06-19T23:20:45.180Z",
+      "updated_at": "2018-06-19T23:20:45.180Z",
+      "amount": "100.00",
+      "date": "2018-06-19",
+      "description": "test3",
+      "user": 1,
+      "transaction_category": 15
+    }
+  }
+]

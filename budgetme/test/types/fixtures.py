@@ -8,14 +8,20 @@ from budgetme.apps.types.models import Budget
 @pytest.fixture
 def make_budget():
 
-    def _format_budget_data(**kwargs):
-        now = datetime.datetime.now().strftime('%Y%m%d%s')
-        name = kwargs['name'] if kwargs.get('name') else 'dummy_{}'.format(now)
-        budget_frequency = kwargs['budget_frequency'] if kwargs.get('budget_frequency') else Budget.WEEKLY
-        amount = kwargs['amount'] if kwargs.get('amount') else 100.00
+    def _format_budget_data(is_dummy=False, name='test_budget2', color_display='#FF5722', **kwargs):
+        dummy_name = None
+        dummy_color_display = None
+        if is_dummy:
+            now = datetime.datetime.now().strftime('%Y%m%d%s')
+            dummy_name = 'dummy_{}'.format(now)
+            dummy_color_display = '#00BCD4'
+
+        name = name if not is_dummy else dummy_name
+        budget_frequency = kwargs['budget_frequency'] if kwargs.get('budget_frequency') else Budget.MONTHLY
+        amount = kwargs['amount'] if kwargs.get('amount') else 200.00
         start_date = kwargs['start_date'] if kwargs.get('start_date') else '2018-06-01'
         end_date = kwargs['end_date'] if kwargs.get('end_date') else '2018-06-30'
-        color_display = kwargs['color_display'] if kwargs.get('color_display') else '#00BCD4'
+        color_display = color_display if not is_dummy else dummy_color_display
 
         return {
             'name': name,
@@ -32,15 +38,13 @@ def make_budget():
 @pytest.fixture
 def make_transaction_category(make_budget):
 
-    def _make_transaction_category(budget=None, **kwargs):
-        now = datetime.datetime.now().strftime('%Y%m%d%s')
-        name = kwargs['name'] if kwargs.get('name') else 'dummy_{}'.format(now)
-        budget = budget if budget else make_budget(
-            name='test_budget2',
-            budget_frequency=Budget.MONTHLY,
-            amount=200.00,
-            color_display='#FF5722'
-        )
+    def _make_transaction_category(budget=None, is_dummy=False, name='test_tc1'):
+        dummy_name = None
+        if is_dummy:
+            now = datetime.datetime.now().strftime('%Y%m%d%s')
+            dummy_name = 'dummy_{}'.format(now)
+        name = name if not is_dummy else dummy_name
+        budget = budget if budget else make_budget()
 
         return {
             'name': name,
