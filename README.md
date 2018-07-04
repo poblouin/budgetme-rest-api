@@ -19,4 +19,4 @@ To run the scheduled transaction task
     
 To register the task to cron
 
-    $ $ python manage.py installtasks
+    $ python manage.py installtasks
