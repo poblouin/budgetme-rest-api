@@ -33,7 +33,7 @@ class ScheduledTransaction(TimestampedModel):
     description = models.CharField(max_length=100)
     frequency = models.CharField(max_length=9, choices=SCHEDULE_FREQUENCY_CHOICES)
     start_date = models.DateField()
-    end_date = models.DateField(default=None, null=True)
+    end_date = models.DateField(default=None, null=True, blank=True)
 
     user = models.ForeignKey('core.User', on_delete=models.CASCADE, related_name='scheduled_transactions')
     transaction_category = models.ForeignKey('types.TransactionCategory', on_delete=models.CASCADE, related_name='+')

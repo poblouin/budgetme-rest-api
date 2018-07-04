@@ -1,7 +1,11 @@
+from raven.contrib.django.models import sentry_exception_handler
 from rest_framework.views import exception_handler
 
 
 def custom_exception_handler(exc, context):
+    # Make sure the exception signal is fired for Sentry
+    sentry_exception_handler(request=context.get('request'))
+
     response = exception_handler(exc, context)
     handlers = {
         'NotFound': _process_not_found_error,
@@ -28,7 +32,7 @@ def _process_generic_error(exc, context, response):
 
 
 def _process_not_found_error(exc, context, response):
-    view = context.get('view', None)
+    view = context.get('view')
 
     if view and hasattr(view, 'queryset') and view.queryset is not None:
         error_key = view.queryset.model._meta.verbose_name
