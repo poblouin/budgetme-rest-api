@@ -20,3 +20,16 @@ To run the scheduled transaction task
 To register the task to cron
 
     $ python manage.py installtasks
+
+### env file
+
+In config/settings, there is a .env file that is read by the production config. In this file, you must put the following config so that the app can work properly.
+
+    # Django
+    DATABASE_URL=postgres://{user}:{passwd}@{db}/{role}
+    DJANGO_SECRET_KEY=
+    DJANGO_ALLOWED_HOSTS=
+    DJANGO_ADMIN_URL=
+
+    # Sentry
+    DJANGO_SENTRY_DSN=
