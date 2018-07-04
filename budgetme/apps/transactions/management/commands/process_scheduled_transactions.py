@@ -2,6 +2,7 @@ import datetime
 import os
 
 import dateutil
+import kronos
 from django.core.management.base import BaseCommand
 from raven import Client
 
@@ -14,6 +15,7 @@ if os.environ.get('DJANGO_SETTINGS_MODULE') == 'config.settings.production':
     SENTRY_CLIENT = Client(SENTRY_DSN)
 
 
+@kronos.register('0 4 * * *')
 class Command(BaseCommand):
     help = 'If a scheduled transaction is due, this command will create a new transaction  in the database'
 
