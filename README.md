@@ -15,7 +15,7 @@ Note: The following commands must be ran within the sourced env of the project.
 
 To run the scheduled transaction task
 
-    $ python manage.py runtask process_scheduled_transactions
+    $ python manage.py process_scheduled_transactions
     
 To register the task to cron
 
