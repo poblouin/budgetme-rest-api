@@ -2,15 +2,14 @@ from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from budgetme.apps.core.constants import WEEKLY, MONTHLY
 from budgetme.apps.core.models import TimestampedModel
 
 
 class Budget(TimestampedModel):
-    WEEKLY = 'Weekly'
-    MONTHLY = 'Monthly'
     BUDGET_FREQUENCY_CHOICES = (
-        (WEEKLY, 'Weekly'),
-        (MONTHLY, 'Monthly')
+        (WEEKLY, WEEKLY),
+        (MONTHLY, MONTHLY)
     )
 
     name = models.CharField(max_length=30)

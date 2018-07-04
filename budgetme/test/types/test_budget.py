@@ -52,7 +52,7 @@ def test_create_budget_invalid_dates(authed_client, make_budget):
     assert response is not None and response.status_code == 201
 
 
-@pytest.mark.xfail(reason='Budget color already in use')
+@pytest.mark.xfail(reason='This color is already used by another budget, select another one.')
 def test_put_budget_color_not_unique(authed_client, make_budget):
     budget_data = make_budget(color_display='#FF5722')
 

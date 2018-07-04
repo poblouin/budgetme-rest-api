@@ -2,13 +2,13 @@ import datetime
 
 import pytest
 
-from budgetme.apps.types.models import Budget
+from budgetme.apps.core.constants import WEEKLY
 
 
 @pytest.fixture
 def make_budget():
 
-    def _format_budget_data(is_dummy=False, name='test_budget2', color_display='#FF5722', **kwargs):
+    def _format_budget_data(is_dummy=False, name='test_budget1', color_display=None, **kwargs):
         dummy_name = None
         dummy_color_display = None
         if is_dummy:
@@ -17,10 +17,10 @@ def make_budget():
             dummy_color_display = '#00BCD4'
 
         name = name if not is_dummy else dummy_name
-        budget_frequency = kwargs['budget_frequency'] if kwargs.get('budget_frequency') else Budget.MONTHLY
-        amount = kwargs['amount'] if kwargs.get('amount') else 200.00
-        start_date = kwargs['start_date'] if kwargs.get('start_date') else '2018-06-01'
-        end_date = kwargs['end_date'] if kwargs.get('end_date') else '2018-06-30'
+        budget_frequency = kwargs['budget_frequency'] if kwargs.get('budget_frequency') else WEEKLY
+        amount = kwargs['amount'] if kwargs.get('amount') else 100.00
+        start_date = kwargs.get('start_date')
+        end_date = kwargs.get('end_date')
         color_display = color_display if not is_dummy else dummy_color_display
 
         return {

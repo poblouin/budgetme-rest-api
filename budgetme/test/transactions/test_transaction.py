@@ -1,12 +1,17 @@
-import datetime
-
-import pytest
-
 TRANSACTION_BASE_URL = '/api/v1/transaction'
 
 
 def test_create_transaction(authed_client, make_transaction):
-    transaction_data = make_transaction()
+    budget = {
+        "pk": 16,
+        "name": "test_budget1",
+        "amount": "100.00",
+        "budget_frequency": "Weekly",
+        "start_date": None,
+        "end_date": None,
+        "color_display": None,
+    }
+    transaction_data = make_transaction(budget=budget)
 
     response = authed_client.post(TRANSACTION_BASE_URL, transaction_data, format='json')
     assert response is not None and response.status_code == 201
