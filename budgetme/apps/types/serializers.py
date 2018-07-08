@@ -156,7 +156,7 @@ def validate_name(name):
         string.ascii_letters +
         string.digits +
         string.whitespace +
-        '-._\'"éÉèÈàÀ()[]/'
+        '-.\'"éÉèÈàÀ()[]/'
     )
     name_to_valid = set(name)
     return name_to_valid.issubset(permitted_chars)
