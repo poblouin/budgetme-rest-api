@@ -3,10 +3,12 @@ from rest_framework.views import exception_handler
 
 
 def custom_exception_handler(exc, context):
-    # Make sure the exception signal is fired for Sentry
-    sentry_exception_handler(request=context.get('request'))
-
     response = exception_handler(exc, context)
+
+    # Add Sentry handler for all pertinent error code.
+    if response and response.status_code not in [401]:
+        sentry_exception_handler(request=context.get('request'))
+
     handlers = {
         'NotFound': _process_not_found_error,
         'ValidationError': _process_generic_error
