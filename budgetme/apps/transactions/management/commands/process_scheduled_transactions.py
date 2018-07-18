@@ -1,8 +1,8 @@
 import datetime
 import os
 
-import dateutil
 import kronos
+from dateutil.relativedelta import *
 from django.core.management.base import BaseCommand
 from raven import Client
 
@@ -30,37 +30,32 @@ class Command(BaseCommand):
         for scheduled_transaction in scheduled_transactions:
             now = datetime.datetime.now().date()
 
-            if scheduled_transaction.start_date > now:
-                continue
-            if scheduled_transaction.end_date and scheduled_transaction.end_date < now:
+            if scheduled_transaction.start_date != now:
                 continue
 
-            scheduled_date = None
+            next_scheduled_date = None
             if scheduled_transaction.frequency == DAILY:
-                scheduled_date = now
+                next_scheduled_date = scheduled_transaction.start_date + datetime.timedelta(days=1)
             if scheduled_transaction.frequency == WEEKLY:
-                scheduled_date = scheduled_transaction.start_date + datetime.timedelta(days=7)
+                next_scheduled_date = scheduled_transaction.start_date + datetime.timedelta(days=7)
             elif scheduled_transaction.frequency == BI_WEEKLY:
-                scheduled_date = scheduled_transaction.start_date + datetime.timedelta(days=14)
+                next_scheduled_date = scheduled_transaction.start_date + datetime.timedelta(days=14)
             elif scheduled_transaction.frequency == MONTHLY:
-                scheduled_date = scheduled_transaction.start_date + dateutil.relativedelta.relativedelta(months=1)
+                next_scheduled_date = scheduled_transaction.start_date + relativedelta(months=1)
 
-            if scheduled_date is None:
-                self.stdout.write(self.style.ERROR('scheduled_date was None, this should not happen.'))
+            if next_scheduled_date is None:
+                self.stdout.write(self.style.ERROR('next_scheduled_date was None, this should not happen.'))
                 if SENTRY_CLIENT:
-                    SENTRY_CLIENT.captureMessage('scheduled_date was None, this should not happen.', level='error')
+                    SENTRY_CLIENT.captureMessage('next_scheduled_date was None, this should not happen.', level='error')
                 total_ignored += 1
-                continue
-
-            if scheduled_date != now:
                 continue
 
             success = self._create_transaction(scheduled_transaction)
             if success:
                 total_created += 1
-                if not scheduled_transaction.end_date or scheduled_date < scheduled_transaction.end_date:
+                if not scheduled_transaction.end_date or next_scheduled_date <= scheduled_transaction.end_date:
                     try:
-                        scheduled_transaction.start_date = scheduled_date
+                        scheduled_transaction.start_date = next_scheduled_date
                         scheduled_transaction.save()
                     except Exception as ex:
                         self.stdout.write(self.style.ERROR('Could not save new scheduled transaction start_date: {}'.format(ex)))
