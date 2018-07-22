@@ -4,7 +4,7 @@ SCHEDULED_TRANSACTION_BASE_URL = '/api/v1/scheduled-transaction'
 def test_create_transaction(authed_client, make_scheduled_transaction):
     budget = {
         "pk": 16,
-        "name": "test_budget1",
+        "name": "test-budget1",
         "amount": "100.00",
         "budget_frequency": "Weekly",
         "start_date": None,

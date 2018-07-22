@@ -16,7 +16,7 @@ def test_get_transaction_category(authed_client):
 
     transaction_category = response.data
     assert transaction_category is not None and transaction_category.get('name') is not None
-    assert transaction_category.get('name') == 'test_tc1'
+    assert transaction_category.get('name') == 'test-tc1'
 
 
 @pytest.mark.xfail(reason='The Budget does not exist.')

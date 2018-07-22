@@ -4,7 +4,7 @@ TRANSACTION_BASE_URL = '/api/v1/transaction'
 def test_create_transaction(authed_client, make_transaction):
     budget = {
         "pk": 16,
-        "name": "test_budget1",
+        "name": "test-budget1",
         "amount": "100.00",
         "budget_frequency": "Weekly",
         "start_date": None,
@@ -37,7 +37,7 @@ def test_get_all_transaction_for_user(authed_client):
 
 
 def test_get_all_transaction_for_budget(authed_client):
-    response = authed_client.get(TRANSACTION_BASE_URL + '?budget_name=test_budget1')
+    response = authed_client.get(TRANSACTION_BASE_URL + '?budget_name=test-budget1')
     assert response is not None and response.status_code == 200
 
     transactions = response.data.get('results')

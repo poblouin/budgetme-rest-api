@@ -27,9 +27,9 @@ class Command(BaseCommand):
         total_created = 0
         total_ignored = 0
         scheduled_transactions = ScheduledTransaction.objects.all()
-        for scheduled_transaction in scheduled_transactions:
-            now = datetime.datetime.now().date()
+        now = datetime.datetime.now().date()
 
+        for scheduled_transaction in scheduled_transactions:
             if scheduled_transaction.start_date != now:
                 continue
 
@@ -51,18 +51,19 @@ class Command(BaseCommand):
                 continue
 
             success = self._create_transaction(scheduled_transaction)
-            if success:
-                total_created += 1
-                if not scheduled_transaction.end_date or next_scheduled_date <= scheduled_transaction.end_date:
-                    try:
-                        scheduled_transaction.start_date = next_scheduled_date
-                        scheduled_transaction.save()
-                    except Exception as ex:
-                        self.stdout.write(self.style.ERROR('Could not save new scheduled transaction start_date: {}'.format(ex)))
-                        if SENTRY_CLIENT:
-                            SENTRY_CLIENT.captureMessage('Could not save new scheduled transaction start_date: {}'.format(ex), level='error')
-            else:
+            if not success:
                 total_ignored += 1
+
+            total_created += 1
+            if not scheduled_transaction.end_date or next_scheduled_date <= scheduled_transaction.end_date:
+                try:
+                    scheduled_transaction.start_date = next_scheduled_date
+                    scheduled_transaction.save()
+                except Exception as ex:
+                    err_msg = 'Could not save new scheduled transaction start_date: {}'.format(ex)
+                    self.stdout.write(self.style.ERROR(err_msg))
+                    if SENTRY_CLIENT:
+                        SENTRY_CLIENT.captureMessage(err_msg, level='error')
 
         exit_msg = 'Scheduled transactions processed with success, {} transactions were created, {} ignored'.format(total_created, total_ignored)
         self.stdout.write(self.style.SUCCESS(exit_msg))

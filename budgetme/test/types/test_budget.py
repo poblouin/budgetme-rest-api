@@ -18,12 +18,12 @@ def test_get_budget(authed_client):
 
     budget = response.data
     assert budget is not None and budget.get('name') is not None
-    assert budget.get('name') == 'test_budget1'
+    assert budget.get('name') == 'test-budget1'
 
 
 def test_put_budget_name(authed_client, make_budget):
     now = datetime.datetime.now().strftime('%Y%m%d')
-    budget_data = make_budget(name='test_budget_{}'.format(now))
+    budget_data = make_budget(name='test-budget-{}'.format(now))
 
     response = authed_client.put(BUDGET_BASE_URL + '/17', budget_data, format='json')
     assert response is not None and response.status_code == 200
@@ -38,7 +38,7 @@ def test_put_budget_dates(authed_client, make_budget):
 
 @pytest.mark.xfail(reason='Budget name is not unique')
 def test_create_budget_not_unique(authed_client, make_budget):
-    budget_data = make_budget(name='test_budget1')
+    budget_data = make_budget(name='test-budget1')
 
     response = authed_client.post(BUDGET_BASE_URL, budget_data, format='json')
     assert response is not None and response.status_code == 201

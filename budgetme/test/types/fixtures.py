@@ -8,12 +8,12 @@ from budgetme.apps.core.constants import WEEKLY
 @pytest.fixture
 def make_budget():
 
-    def _format_budget_data(is_dummy=False, name='test_budget1', color_display=None, **kwargs):
+    def _format_budget_data(is_dummy=False, name='test-budget1', color_display=None, **kwargs):
         dummy_name = None
         dummy_color_display = None
         if is_dummy:
             now = datetime.datetime.now().strftime('%Y%m%d%s')
-            dummy_name = 'dummy_{}'.format(now)
+            dummy_name = 'dummy-{}'.format(now)
             dummy_color_display = '#00BCD4'
 
         name = name if not is_dummy else dummy_name
@@ -38,11 +38,11 @@ def make_budget():
 @pytest.fixture
 def make_transaction_category(make_budget):
 
-    def _make_transaction_category(budget=None, is_dummy=False, name='test_tc1'):
+    def _make_transaction_category(budget=None, is_dummy=False, name='test-tc1'):
         dummy_name = None
         if is_dummy:
             now = datetime.datetime.now().strftime('%Y%m%d%s')
-            dummy_name = 'dummy_{}'.format(now)
+            dummy_name = 'dummy-{}'.format(now)
         name = name if not is_dummy else dummy_name
         budget = budget if budget else make_budget()
 
