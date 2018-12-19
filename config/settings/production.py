@@ -126,3 +126,4 @@ ADMIN_URL = env('DJANGO_ADMIN_URL')
 
 SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = datetime.timedelta(minutes=30)
 SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] = datetime.timedelta(days=1)
+SIMPLE_JWT['SIGNING_KEY'] = env('DJANGO_SECRET_KEY')

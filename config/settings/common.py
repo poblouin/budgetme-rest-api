@@ -64,9 +64,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (
-    ("""Pierre-Olivier Blouin""", 'blouin.pierreolivier@gmail.com'),
-)
+ADMINS = ()
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
@@ -182,8 +180,6 @@ REST_FRAMEWORK = {
 # Django REST Framework Simple JWT config
 # ------------------------------------------------------------------------------
 SIMPLE_JWT = {
-    'SIGNING_KEY': env('DJANGO_SECRET_KEY'),
-
     'AUTH_HEADER_TYPES': ('Token',),
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',

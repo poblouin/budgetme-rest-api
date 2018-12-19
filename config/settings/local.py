@@ -10,8 +10,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'budgetme',
-        'USER': env.str('POSTGRES_USER_DEBUG'),
-        'PASSWORD': env.str('POSTGRES_PASSWORD_DEBUG'),
+        'USER': 'budgetme',
+        'PASSWORD': 'budgetme',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -39,3 +39,4 @@ ALLOWED_HOSTS = [
 
 SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'] = datetime.timedelta(days=7)
 SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'] = datetime.timedelta(days=7)
+SIMPLE_JWT['SIGNING_KEY'] = SECRET_KEY
