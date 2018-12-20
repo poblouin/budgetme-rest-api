@@ -152,7 +152,8 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
     'localhost',
-    'www.budgetme.ca'
+    'www.budgetme.ca',
+    'budgetme.ca'
 )
 CORS_URLS_REGEX = r'^/api/.*$'
 
