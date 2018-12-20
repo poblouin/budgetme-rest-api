@@ -14,7 +14,7 @@ class TransactionViewSet(ModelViewSet):
     renderer_classes = (TransactionJSONRenderer,)
     serializer_class = TransactionSerializer
     filter_backends = (DjangoFilterBackend,)
-    filter_class = TransactionFilter
+    filterset_class = TransactionFilter
 
     def get_queryset(self):
         return self.request.user.transactions.all()
@@ -29,7 +29,7 @@ class ScheduledTransactionViewSet(ModelViewSet):
     renderer_classes = (ScheduledTransactionJSONRenderer,)
     serializer_class = ScheduledTransactionSerializer
     filter_backends = (DjangoFilterBackend,)
-    filter_class = ScheduledTransactionFilter
+    filterset_class = ScheduledTransactionFilter
 
     def get_queryset(self):
         return self.request.user.scheduled_transactions.all()

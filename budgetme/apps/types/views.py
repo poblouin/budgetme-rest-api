@@ -27,7 +27,7 @@ class TransactionCategoryViewSet(ModelViewSet):
     renderer_classes = (TransactionCategoryJSONRenderer,)
     serializer_class = TransactionCategorySerializer
     filter_backends = (DjangoFilterBackend,)
-    filter_class = TransactionCategoryFilter
+    filterset_class = TransactionCategoryFilter
 
     def get_queryset(self):
         return self.request.user.transaction_categories.all()
