@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "0.0.0.0:5432:5432"
+    env_file:
+      - ./config/settings/.env
+
+  api:
+    build:
+      context: ./
+      dockerfile: ./.docker/api/Dockerfile
+    command: bash -c "
+      python manage.py makemigrations && 
+      python manage.py migrate &&
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - ./config/settings/.env
+
+volumes:
+  postgres_data:
+    external: true

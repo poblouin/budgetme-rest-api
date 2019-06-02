@@ -6,16 +6,17 @@ DEBUG = env.bool('DJANGO_DEBUG', default=True)
 TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 
 # DATABASE
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'budgetme',
-        'USER': 'budgetme',
-        'PASSWORD': 'budgetme',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'budgetme',
+#         'USER': 'budgetme',
+#         'PASSWORD': 'budgetme',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+DATABASES['default'] = env.db('DATABASE_URL')
 
 # SECRET CONFIGURATION
 # ------------------------------------------------------------------------------
