@@ -2,6 +2,7 @@ FROM python:latest
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /budgetme
 WORKDIR /budgetme
-ADD requirements.txt /budgetme/
-RUN pip install -r requirements.txt
+RUN pip install pipenv
+ADD Pipfile Pipfile.lock /budgetme/
+RUN pipenv install --system --deploy --dev
 ADD . /budgetme
