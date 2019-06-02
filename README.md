@@ -25,11 +25,12 @@ To register the task to cron
 
 In config/settings, there is a .env file that is read by the production config. In this file, you must put the following config so that the app can work properly.
 
-    # Django
-    DATABASE_URL=postgres://{user}:{passwd}@{db}/{role}
+    POSTGRES_USER=
+    POSTGRES_PASSWORD=
+    POSTGRES_DB=budgetme
+    DJANGO_SETTINGS_MODULE=config.settings.[local,production]
+    DATABASE_URL=postgres://{user}:{pass}@db/budgetme
     DJANGO_SECRET_KEY=
     DJANGO_ALLOWED_HOSTS=
     DJANGO_ADMIN_URL=
-
-    # Sentry
     DJANGO_SENTRY_DSN=
